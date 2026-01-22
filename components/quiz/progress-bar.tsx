@@ -12,24 +12,24 @@ export function ProgressBar({ current, total, category }: ProgressBarProps) {
   const percentage = Math.round((current / total) * 100);
 
   return (
-    <div className="w-full space-y-3">
-      <div className="flex items-center justify-between text-sm">
-        <div className="flex items-center gap-3">
+    <div className="w-full space-y-1.5">
+      <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center gap-2">
           <span className="text-muted-foreground">Progress</span>
           {category && (
-            <span className="rounded-full bg-primary/20 px-3 py-1 text-xs font-medium text-primary">
+            <span className="rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-medium text-primary">
               {category}
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-primary">{current}</span>
+        <div className="flex items-center gap-1.5">
+          <span className="font-mono text-primary text-xs">{current}</span>
           <span className="text-muted-foreground">/</span>
-          <span className="font-mono text-muted-foreground">{total}</span>
+          <span className="font-mono text-muted-foreground text-xs">{total}</span>
         </div>
       </div>
 
-      <div className="relative h-3 w-full overflow-hidden rounded-full bg-secondary">
+      <div className="relative h-2 w-full overflow-hidden rounded-full bg-secondary">
         {/* Animated background glow */}
         <div
           className="absolute inset-0 opacity-30"
@@ -57,7 +57,7 @@ export function ProgressBar({ current, total, category }: ProgressBarProps) {
           style={{ left: `${Math.max(percentage - 3, 0)}%` }}
         >
           <div className="relative">
-            <div className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-card px-2 py-1 text-xs font-medium text-primary shadow-lg border border-border">
+            <div className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-card px-1.5 py-0.5 text-[10px] font-medium text-primary shadow-lg border border-border">
               {percentage}%
             </div>
           </div>
@@ -65,12 +65,12 @@ export function ProgressBar({ current, total, category }: ProgressBarProps) {
       </div>
 
       {/* Visual markers */}
-      <div className="relative h-2">
+      <div className="relative h-1">
         {[0, 25, 50, 75, 100].map((marker) => (
           <div
             key={marker}
             className={cn(
-              "absolute top-0 h-2 w-px",
+              "absolute top-0 h-1 w-px",
               percentage >= marker ? "bg-primary/60" : "bg-border"
             )}
             style={{ left: `${marker}%` }}

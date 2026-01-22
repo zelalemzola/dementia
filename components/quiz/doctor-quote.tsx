@@ -66,35 +66,35 @@ export function DoctorQuote({ currentQuestion, category }: DoctorQuoteProps) {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-2xl mx-auto mb-6"
+      className="w-full max-w-2xl mx-auto mb-3"
     >
-      <div className="relative overflow-hidden rounded-xl border border-border bg-card/50 backdrop-blur-sm p-4">
+      <div className="relative overflow-hidden rounded-lg border border-border bg-card/50 backdrop-blur-sm p-2.5">
         {/* Decorative quote icon */}
         <div className="absolute -right-2 -top-2 opacity-10">
-          <Quote className="h-16 w-16 text-primary" />
+          <Quote className="h-10 w-10 text-primary" />
         </div>
         
-        <div className="flex items-start gap-4 relative z-10">
+        <div className="flex items-center gap-3 relative z-10">
           {/* Doctor avatar */}
           <div className="relative shrink-0">
-            <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/20">
+            <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/20">
               <Image
                 src="/images/dr-sam-profile.webp"
                 alt="Dr. Samuel Richardson"
-                width={56}
-                height={56}
+                width={40}
+                height={40}
                 className="h-full w-full object-cover"
               />
             </div>
             {/* Online indicator */}
-            <div className="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full bg-green-500 border-2 border-card" />
+            <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-500 border-2 border-card" />
           </div>
 
           {/* Quote content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="font-semibold text-foreground text-sm">Dr. Samuel Richardson</span>
-              <span className="text-xs text-muted-foreground">MD, PhD - Lead Neurologist</span>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="font-semibold text-foreground text-xs">Dr. Samuel Richardson</span>
+              <span className="text-[10px] text-muted-foreground hidden sm:inline">MD, PhD - Lead Neurologist</span>
             </div>
             
             <AnimatePresence mode="wait">
@@ -104,7 +104,7 @@ export function DoctorQuote({ currentQuestion, category }: DoctorQuoteProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="text-sm text-muted-foreground leading-relaxed italic"
+                className="text-xs text-muted-foreground leading-snug italic line-clamp-2"
               >
                 "{getQuote()}"
               </motion.p>
