@@ -32,8 +32,8 @@ export default function HomePage() {
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 py-16 md:py-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 py-16 md:py-12">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Left side - Simplified Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -53,7 +53,7 @@ export default function HomePage() {
               </motion.div>
 
               {/* Simplified Heading */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-foreground leading-tight">
                 Check Your
                 <span className="block text-primary">Memory Health</span>
               </h1>
@@ -127,11 +127,11 @@ export default function HomePage() {
               <div className="relative">
                 <div className="w-80 h-80 rounded-2xl overflow-hidden border border-border shadow-2xl">
                   <Image
-                    src="/images/dr-sam-profile.webp"
+                    src="/images/example5.png"
                     alt="Dr. Samuel Richardson - Lead Neurologist"
                     width={320}
                     height={320}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
                 <div className="absolute -bottom-4 -right-4 bg-card border border-border rounded-xl p-4 shadow-lg">
