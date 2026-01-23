@@ -11,9 +11,59 @@ import { EmailCapture } from "@/components/quiz/email-capture";
 import { PricingPlans } from "@/components/quiz/pricing-plans";
 import { SuccessScreen } from "@/components/quiz/success-screen";
 import { DoctorQuote } from "@/components/quiz/doctor-quote";
+import { ProgressIndicator } from "@/components/quiz/progress-indicator";
+import { CognitiveInsight } from "@/components/quiz/cognitive-insight";
+import { QuickInsight } from "@/components/quiz/quick-insight";
+
+// Import doctor quotes to check when they should show
+const doctorQuotes = [
+  {
+    quote:
+      "As a neurologist, I've designed these questions to identify early cognitive changes. Your honest answers help us provide accurate insights.",
+    category: "memory",
+    showOnQuestions: [2, 11, 18],
+  },
+  {
+    quote:
+      "These cognitive assessments are based on clinical protocols I use in my practice. Each question serves a specific diagnostic purpose.",
+    category: "executive",
+    showOnQuestions: [19, 24],
+  },
+  {
+    quote:
+      "In my 20 years of practice, early detection has been key to better outcomes. This assessment follows proven medical guidelines.",
+    category: "attention",
+    showOnQuestions: [25, 30],
+  },
+  {
+    quote:
+      "Language processing questions help me evaluate multiple brain regions. These are the same assessments we use in clinical settings.",
+    category: "language",
+    showOnQuestions: [35, 38],
+  },
+  {
+    quote:
+      "Orientation questions may seem simple, but they provide crucial information about cognitive health that I rely on in diagnosis.",
+    category: "orientation",
+    showOnQuestions: [31, 33],
+  },
+  {
+    quote:
+      "Remember, this assessment is designed to help, not worry you. Answer honestly so we can provide the most accurate medical insights.",
+    category: "general",
+    showOnQuestions: [10, 20, 39],
+  },
+];
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Brain, AlertTriangle, Shield, CheckCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Brain,
+  AlertTriangle,
+  Shield,
+  CheckCircle,
+} from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 type QuizStage = "quiz" | "analyzing" | "email" | "pricing" | "success";
 
@@ -22,7 +72,11 @@ export default function QuizPage() {
   const [stage, setStage] = useState<QuizStage>("quiz");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [currentPopup, setCurrentPopup] = useState<typeof popups[0] | null>(null);
+  const [currentPopup, setCurrentPopup] = useState<(typeof popups)[0] | null>(
+    null,
+  );
+  const [showCognitiveInsight, setShowCognitiveInsight] = useState(false);
+  const [showQuickInsight, setShowQuickInsight] = useState(false);
   const [email, setEmail] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
   const [recallAnswer, setRecallAnswer] = useState<boolean | null>(null);
@@ -40,21 +94,61 @@ export default function QuizPage() {
     return false;
   }, []);
 
-  const handleAnswer = useCallback((answer: string) => {
-    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
+  // Check if we should show a cognitive insight
+  const checkForCognitiveInsight = useCallback((questionNumber: number) => {
+    const insightTriggers = [5, 12, 20, 28, 35];
+    return insightTriggers.includes(questionNumber);
+  }, []);
 
-    // Small delay before moving to next question or showing popup
-    setTimeout(() => {
-      const hasPopup = checkForPopup(currentQuestion.id);
-      if (!hasPopup) {
-        if (currentQuestionIndex < totalQuestions - 1) {
-          setCurrentQuestionIndex((prev) => prev + 1);
+  // Check if we should show a quick insight
+  const checkForQuickInsight = useCallback((questionNumber: number) => {
+    const quickInsightTriggers = [8, 15, 22, 30];
+    return quickInsightTriggers.includes(questionNumber);
+  }, []);
+
+  const handleAnswer = useCallback(
+    (answer: string) => {
+      setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
+
+      // Small delay before moving to next question or showing popup/insight
+      setTimeout(() => {
+        const hasPopup = checkForPopup(currentQuestion.id);
+        const shouldShowInsight = checkForCognitiveInsight(
+          currentQuestionIndex + 1,
+        );
+        const shouldShowQuickInsight = checkForQuickInsight(
+          currentQuestionIndex + 1,
+        );
+
+        if (hasPopup) {
+          // Show popup first if there is one
+          return;
+        } else if (shouldShowInsight) {
+          // Show cognitive insight
+          setShowCognitiveInsight(true);
+          return;
+        } else if (shouldShowQuickInsight) {
+          // Show quick insight
+          setShowQuickInsight(true);
+          return;
         } else {
-          setStage("analyzing");
+          // Continue to next question or finish
+          if (currentQuestionIndex < totalQuestions - 1) {
+            setCurrentQuestionIndex((prev) => prev + 1);
+          } else {
+            setStage("analyzing");
+          }
         }
-      }
-    }, 300);
-  }, [currentQuestion, currentQuestionIndex, totalQuestions, checkForPopup]);
+      }, 300);
+    },
+    [
+      currentQuestion,
+      currentQuestionIndex,
+      totalQuestions,
+      checkForPopup,
+      checkForCognitiveInsight,
+    ],
+  );
 
   const handlePopupContinue = useCallback(() => {
     setCurrentPopup(null);
@@ -65,10 +159,31 @@ export default function QuizPage() {
     }
   }, [currentQuestionIndex, totalQuestions]);
 
-  const handleRecallAnswer = useCallback((remembered: boolean) => {
-    setRecallAnswer(remembered);
-    handlePopupContinue();
-  }, [handlePopupContinue]);
+  const handleRecallAnswer = useCallback(
+    (remembered: boolean) => {
+      setRecallAnswer(remembered);
+      handlePopupContinue();
+    },
+    [handlePopupContinue],
+  );
+
+  const handleCognitiveInsightContinue = useCallback(() => {
+    setShowCognitiveInsight(false);
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setStage("analyzing");
+    }
+  }, [currentQuestionIndex, totalQuestions]);
+
+  const handleQuickInsightContinue = useCallback(() => {
+    setShowQuickInsight(false);
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setStage("analyzing");
+    }
+  }, [currentQuestionIndex, totalQuestions]);
 
   const handleAnalysisComplete = useCallback(() => {
     setStage("email");
@@ -92,6 +207,8 @@ export default function QuizPage() {
     setSelectedPlan("");
     setRecallAnswer(null);
     setCurrentPopup(null);
+    setShowCognitiveInsight(false);
+    setShowQuickInsight(false);
   }, []);
 
   const handleGoBack = useCallback(() => {
@@ -108,91 +225,98 @@ export default function QuizPage() {
   // Render disclaimer popup first
   if (showDisclaimer) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <div className="min-h-screen bg-background flex items-start justify-center p-4 pt-10">
         {/* Background effects */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="relative z-10 max-w-lg w-full"
+          initial={{ opacity: 0, scale: 0.95, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="relative z-10 max-w-md w-full"
         >
-          <div className="bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
-            {/* Header with warning */}
-            <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border-b border-amber-500/30 p-6">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-amber-500/20 rounded-full">
-                  <AlertTriangle className="h-8 w-8 text-amber-400" />
+          <div className="bg-card border border-amber-200 rounded-2xl shadow-2xl overflow-hidden">
+            {/* Doctor Header */}
+            <div className="flex items-center gap-3 p-4 border-b border-border/50 bg-amber-50/50">
+              <div className="relative">
+                <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/40">
+                  <Image
+                    src="/images/dr-sam-profile.webp"
+                    alt="Dr. Samuel Richardson"
+                    width={40}
+                    height={40}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
-                <div>
-                  <h2 className="text-xl font-bold text-foreground">Important: Please Read</h2>
-                  <p className="text-amber-400/80 text-sm">Before Starting Your Assessment</p>
+                <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-amber-500 border-2 border-card flex items-center justify-center">
+                  <AlertTriangle className="h-2 w-2 text-white" />
                 </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-foreground text-sm">
+                    Dr. Richardson
+                  </span>
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Important Assessment Guidelines
+                </p>
               </div>
             </div>
 
             {/* Content */}
-            <div className="p-6 space-y-6">
-              <div className="bg-secondary/50 rounded-xl p-5 border border-border">
-                <div className="flex items-start gap-4">
-                  <Shield className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
+            <div className="p-4">
+              <h3 className="font-semibold text-foreground mb-3 text-lg">
+                Assessment Guidelines
+              </h3>
+
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 mb-4">
+                <div className="flex items-start gap-2">
+                  <Shield className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold text-foreground mb-2">Please do not cheat or use help from anyone or anything.</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      So we can give you the most accurate detailed report of your cognitive health.
+                    <p className="text-sm font-medium text-foreground mb-1">
+                      Please complete this assessment independently
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      For accurate results, avoid using external help or
+                      resources
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4 text-sm text-muted-foreground">
-                <p className="leading-relaxed">
-                  This assessment is designed to evaluate your memory and cognitive function naturally. 
-                  Using external assistance will compromise the accuracy of your results.
-                </p>
-                
-                <div className="grid gap-3">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                    <span>Answer all questions honestly and to the best of your ability</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                    <span>Do not use notes, internet, or ask others for help</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                    <span>Complete the assessment in one sitting if possible</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                    <span>Find a quiet, distraction-free environment</span>
-                  </div>
+              <div className="space-y-2 text-xs text-muted-foreground mb-4">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                  <span>Answer honestly and to the best of your ability</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                  <span>Find a quiet, distraction-free environment</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                  <span>Complete in one sitting (10-15 minutes)</span>
                 </div>
               </div>
 
-              {/* Estimated time */}
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground bg-secondary/30 rounded-lg py-3">
-                <Brain className="h-4 w-4 text-primary" />
-                <span>Estimated completion time: 10-15 minutes</span>
-              </div>
-            </div>
-
-            {/* Footer with button */}
-            <div className="p-6 pt-0">
               <Button
                 onClick={() => setShowDisclaimer(false)}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg rounded-xl transition-all hover:scale-[1.02]"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 text-sm"
               >
                 I Understand, Begin Assessment
               </Button>
-              <p className="text-center text-xs text-muted-foreground mt-4">
-                By continuing, you agree to complete this assessment without external assistance.
+
+              <p className="text-center text-xs text-muted-foreground mt-2">
+                By continuing, you agree to complete independently
               </p>
             </div>
+
+            {/* Medical accent line */}
+            <div className="h-1 bg-amber-500" />
           </div>
         </motion.div>
       </div>
@@ -213,7 +337,13 @@ export default function QuizPage() {
   }
 
   if (stage === "success") {
-    return <SuccessScreen email={email} plan={selectedPlan} onStartOver={handleStartOver} />;
+    return (
+      <SuccessScreen
+        email={email}
+        plan={selectedPlan}
+        onStartOver={handleStartOver}
+      />
+    );
   }
 
   // Quiz stage
@@ -257,11 +387,22 @@ export default function QuizPage() {
 
       {/* Main content */}
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-8">
-        {/* Doctor Quote Section */}
-        <DoctorQuote 
-          currentQuestion={currentQuestionIndex} 
-          category={currentCategory} 
+        {/* Doctor Quote Section - Only show occasionally, replaces progress indicator */}
+        <DoctorQuote
+          currentQuestion={currentQuestionIndex}
+          category={currentCategory}
         />
+
+        {/* Progress Indicator - Only show when doctor quote is not showing */}
+        {!doctorQuotes.some((q) =>
+          q.showOnQuestions.includes(currentQuestionIndex + 1),
+        ) && (
+          <ProgressIndicator
+            currentQuestion={currentQuestionIndex + 1}
+            totalQuestions={totalQuestions}
+            category={currentCategory}
+          />
+        )}
 
         <AnimatePresence mode="wait">
           <QuestionCard
@@ -289,7 +430,33 @@ export default function QuizPage() {
           <PopupModal
             popup={currentPopup}
             onContinue={handlePopupContinue}
-            onRecallAnswer={currentPopup.type === "recall" ? handleRecallAnswer : undefined}
+            onRecallAnswer={
+              currentPopup.type === "recall" ? handleRecallAnswer : undefined
+            }
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Cognitive Insight Modal */}
+      <AnimatePresence>
+        {showCognitiveInsight && (
+          <CognitiveInsight
+            questionNumber={currentQuestionIndex + 1}
+            category={currentCategory}
+            answers={answers}
+            onContinue={handleCognitiveInsightContinue}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Quick Insight Notification */}
+      <AnimatePresence>
+        {showQuickInsight && (
+          <QuickInsight
+            questionNumber={currentQuestionIndex + 1}
+            category={currentCategory}
+            answers={answers}
+            onContinue={handleQuickInsightContinue}
           />
         )}
       </AnimatePresence>

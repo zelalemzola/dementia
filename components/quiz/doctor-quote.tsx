@@ -2,49 +2,45 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Quote } from "lucide-react";
+import { Quote, Stethoscope } from "lucide-react";
 
 const doctorQuotes = [
   {
-    quote: "Each question in this assessment has been carefully calibrated based on decades of clinical research. Answer honestly for the most accurate results.",
-    category: "memory"
+    quote:
+      "As a neurologist, I've designed these questions to identify early cognitive changes. Your honest answers help us provide accurate insights.",
+    category: "memory",
+    showOnQuestions: [2, 11, 18],
   },
   {
-    quote: "Memory fluctuations are normal. Our questions are designed to distinguish everyday forgetfulness from patterns that may need attention.",
-    category: "memory"
+    quote:
+      "These cognitive assessments are based on clinical protocols I use in my practice. Each question serves a specific diagnostic purpose.",
+    category: "executive",
+    showOnQuestions: [19, 24],
   },
   {
-    quote: "Executive function is crucial for daily life. These questions help us understand how your brain processes complex tasks.",
-    category: "executive"
+    quote:
+      "In my 20 years of practice, early detection has been key to better outcomes. This assessment follows proven medical guidelines.",
+    category: "attention",
+    showOnQuestions: [25, 30],
   },
   {
-    quote: "Don't be alarmed by challenging questions. They're designed to thoroughly assess different cognitive domains.",
-    category: "attention"
+    quote:
+      "Language processing questions help me evaluate multiple brain regions. These are the same assessments we use in clinical settings.",
+    category: "language",
+    showOnQuestions: [35, 38],
   },
   {
-    quote: "Attention and focus vary throughout the day. Our assessment accounts for natural variations to give you accurate insights.",
-    category: "attention"
+    quote:
+      "Orientation questions may seem simple, but they provide crucial information about cognitive health that I rely on in diagnosis.",
+    category: "orientation",
+    showOnQuestions: [31, 33],
   },
   {
-    quote: "Language processing is a complex cognitive skill. These questions help evaluate multiple brain regions working together.",
-    category: "language"
+    quote:
+      "Remember, this assessment is designed to help, not worry you. Answer honestly so we can provide the most accurate medical insights.",
+    category: "general",
+    showOnQuestions: [10, 20, 39],
   },
-  {
-    quote: "Orientation questions may seem simple, but they provide valuable information about cognitive health patterns.",
-    category: "orientation"
-  },
-  {
-    quote: "Emotional well-being is deeply connected to cognitive function. Your honest answers help us see the complete picture.",
-    category: "mood"
-  },
-  {
-    quote: "Our team of neurologists and cognitive scientists has validated every question against clinical benchmarks.",
-    category: "iq"
-  },
-  {
-    quote: "Take your time with each question. There are no time limits, and thoughtful answers lead to better insights.",
-    category: "general"
-  }
 ];
 
 interface DoctorQuoteProps {
@@ -53,71 +49,84 @@ interface DoctorQuoteProps {
 }
 
 export function DoctorQuote({ currentQuestion, category }: DoctorQuoteProps) {
-  // Get a quote based on category or cycle through general quotes
-  const getQuote = () => {
-    const categoryQuotes = doctorQuotes.filter(q => q.category === category);
-    if (categoryQuotes.length > 0) {
-      return categoryQuotes[currentQuestion % categoryQuotes.length].quote;
-    }
-    return doctorQuotes[currentQuestion % doctorQuotes.length].quote;
-  };
+  // Find quotes that should show for this specific question
+  const applicableQuotes = doctorQuotes.filter(
+    (q) => q.showOnQuestions.includes(currentQuestion + 1), // +1 because currentQuestion is 0-indexed
+  );
+
+  // If no specific quote for this question, don't show anything
+  if (applicableQuotes.length === 0) {
+    return null;
+  }
+
+  const quote = applicableQuotes[0];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-2xl mx-auto mb-3"
+      className="w-full max-w-2xl mx-auto mb-4"
     >
-      <div className="relative overflow-hidden rounded-lg border border-border bg-card/50 backdrop-blur-sm p-2.5">
-        {/* Decorative quote icon */}
-        <div className="absolute -right-2 -top-2 opacity-10">
-          <Quote className="h-10 w-10 text-primary" />
+      <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 backdrop-blur-sm p-4">
+        {/* Medical badge */}
+        <div className="absolute -right-1 -top-1 opacity-20">
+          <Stethoscope className="h-8 w-8 text-primary" />
         </div>
-        
-        <div className="flex items-center gap-3 relative z-10">
+
+        <div className="flex items-start gap-4 relative z-10">
           {/* Doctor avatar */}
           <div className="relative shrink-0">
-            <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/20">
+            <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-primary/40 shadow-lg shadow-primary/20">
               <Image
                 src="/images/dr-sam-profile.webp"
                 alt="Dr. Samuel Richardson"
-                width={40}
-                height={40}
+                width={48}
+                height={48}
                 className="h-full w-full object-cover"
               />
             </div>
-            {/* Online indicator */}
-            <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-500 border-2 border-card" />
+            {/* Medical indicator */}
+            <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-primary border-2 border-card flex items-center justify-center">
+              <Stethoscope className="h-2 w-2 text-white" />
+            </div>
           </div>
 
           {/* Quote content */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-0.5">
-              <span className="font-semibold text-foreground text-xs">Dr. Samuel Richardson</span>
-              <span className="text-[10px] text-muted-foreground hidden sm:inline">MD, PhD - Lead Neurologist</span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-semibold text-foreground text-sm">
+                Dr. Samuel Richardson
+              </span>
+              <span className="text-xs text-primary font-medium">MD, PhD</span>
             </div>
-            
+            <p className="text-xs text-muted-foreground mb-1">
+              Lead Neurologist • Cognitive Health Specialist
+            </p>
+
             <AnimatePresence mode="wait">
-              <motion.p
+              <motion.div
                 key={currentQuestion}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="text-xs text-muted-foreground leading-snug italic line-clamp-2"
+                className="flex items-start gap-2"
               >
-                "{getQuote()}"
-              </motion.p>
+                <Quote className="h-3 w-3 text-primary/60 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-foreground leading-relaxed italic">
+                  {quote.quote}
+                </p>
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>
 
-        {/* Subtle animated border */}
+        {/* Medical border accent */}
         <motion.div
-          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-primary/50 via-accent/50 to-primary/50"
+          className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary via-accent to-primary"
           initial={{ width: "0%" }}
           animate={{ width: "100%" }}
-          transition={{ duration: 8, repeat: Infinity }}
+          transition={{ duration: 2, ease: "easeOut" }}
         />
       </div>
     </motion.div>

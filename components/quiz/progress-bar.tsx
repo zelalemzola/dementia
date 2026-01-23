@@ -12,7 +12,7 @@ export function ProgressBar({ current, total, category }: ProgressBarProps) {
   const percentage = Math.round((current / total) * 100);
 
   return (
-    <div className="w-full space-y-1.5">
+    <div className="w-full space-y-2">
       <div className="flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground">Progress</span>

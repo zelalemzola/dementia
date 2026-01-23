@@ -3,8 +3,9 @@
 import { PopupData } from "@/lib/quiz-data";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { AlertTriangle, Info, Brain } from "lucide-react";
+import { AlertTriangle, Info, Brain, Stethoscope, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface PopupModalProps {
   popup: PopupData | null;
@@ -12,19 +13,23 @@ interface PopupModalProps {
   onRecallAnswer?: (remembered: boolean) => void;
 }
 
-export function PopupModal({ popup, onContinue, onRecallAnswer }: PopupModalProps) {
+export function PopupModal({
+  popup,
+  onContinue,
+  onRecallAnswer,
+}: PopupModalProps) {
   if (!popup) return null;
 
   const icons = {
-    warning: <AlertTriangle className="h-8 w-8 text-destructive" />,
-    info: <Info className="h-8 w-8 text-primary" />,
-    recall: <Brain className="h-8 w-8 text-accent" />
+    warning: <AlertTriangle className="h-6 w-6 text-destructive" />,
+    info: <Info className="h-6 w-6 text-primary" />,
+    recall: <Brain className="h-6 w-6 text-accent" />,
   };
 
-  const titles = {
-    warning: "text-destructive",
-    info: "text-primary",
-    recall: "text-accent"
+  const colors = {
+    warning: "border-destructive/30 bg-destructive/5",
+    info: "border-primary/30 bg-primary/5",
+    recall: "border-accent/30 bg-accent/5",
   };
 
   return (
@@ -33,60 +38,72 @@ export function PopupModal({ popup, onContinue, onRecallAnswer }: PopupModalProp
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4"
+        className="fixed inset-0 z-50 flex items-start justify-center bg-background/60 backdrop-blur-sm p-4 pt-20"
       >
         <motion.div
-          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          initial={{ scale: 0.95, opacity: 0, y: -20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          exit={{ scale: 0.95, opacity: 0, y: -20 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+          className={cn(
+            "relative w-full max-w-md overflow-hidden rounded-2xl border shadow-2xl",
+            colors[popup.type],
+          )}
         >
-          {/* Decorative glow */}
-          <div className={cn(
-            "absolute -top-20 left-1/2 -translate-x-1/2 h-40 w-40 rounded-full blur-3xl",
-            popup.type === "warning" ? "bg-destructive/30" : 
-            popup.type === "info" ? "bg-primary/30" : "bg-accent/30"
-          )} />
-
-          <div className="relative p-8">
-            {/* Icon */}
-            <div className={cn(
-              "mb-6 flex h-16 w-16 items-center justify-center rounded-full mx-auto",
-              popup.type === "warning" ? "bg-destructive/20" : 
-              popup.type === "info" ? "bg-primary/20" : "bg-accent/20"
-            )}>
-              {icons[popup.type]}
+          {/* Doctor Header */}
+          <div className="flex items-center gap-3 p-4 border-b border-border/50">
+            <div className="relative">
+              <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/40">
+                <Image
+                  src="/images/dr-sam-profile.webp"
+                  alt="Dr. Samuel Richardson"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-primary border-2 border-card flex items-center justify-center">
+                <Stethoscope className="h-2 w-2 text-white" />
+              </div>
             </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-foreground text-sm">
+                  Dr. Richardson
+                </span>
+                {icons[popup.type]}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Medical Assessment Notice
+              </p>
+            </div>
+          </div>
 
-            {/* Title */}
-            <h3 className={cn(
-              "mb-4 text-center text-2xl font-bold",
-              titles[popup.type]
-            )}>
+          {/* Content */}
+          <div className="p-4">
+            <h3 className="font-semibold text-foreground mb-3 text-lg">
               {popup.title}
             </h3>
 
-            {/* Content */}
-            <div className="mb-8 space-y-4 text-center text-muted-foreground leading-relaxed">
-              {popup.content.split('\n\n').map((paragraph, index) => (
+            <div className="space-y-2 text-sm text-muted-foreground leading-relaxed mb-4">
+              {popup.content.split("\n\n").map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
 
             {/* Actions */}
             {popup.type === "recall" && onRecallAnswer ? (
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button
                   onClick={() => onRecallAnswer(true)}
-                  className="flex-1 bg-primary hover:bg-primary/90"
+                  className="flex-1 bg-primary hover:bg-primary/90 text-sm py-2"
                 >
                   Yes, I remember
                 </Button>
                 <Button
                   onClick={() => onRecallAnswer(false)}
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 text-sm py-2"
                 >
                   No, I don't
                 </Button>
@@ -95,23 +112,30 @@ export function PopupModal({ popup, onContinue, onRecallAnswer }: PopupModalProp
               <Button
                 onClick={onContinue}
                 className={cn(
-                  "w-full py-6 text-lg font-semibold",
-                  popup.type === "warning" 
-                    ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground" 
-                    : "bg-primary hover:bg-primary/90"
+                  "w-full text-sm py-2 font-medium",
+                  popup.type === "warning"
+                    ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+                    : "bg-primary hover:bg-primary/90",
                 )}
               >
-                {popup.type === "warning" ? "I Understand, Continue" : "Continue Assessment"}
+                {popup.type === "warning"
+                  ? "I Understand, Continue"
+                  : "Continue Assessment"}
               </Button>
             )}
           </div>
 
-          {/* Bottom decoration */}
-          <div className={cn(
-            "h-1",
-            popup.type === "warning" ? "bg-destructive" : 
-            popup.type === "info" ? "bg-primary" : "bg-accent"
-          )} />
+          {/* Medical accent line */}
+          <div
+            className={cn(
+              "h-1",
+              popup.type === "warning"
+                ? "bg-destructive"
+                : popup.type === "info"
+                  ? "bg-primary"
+                  : "bg-accent",
+            )}
+          />
         </motion.div>
       </motion.div>
     </AnimatePresence>
