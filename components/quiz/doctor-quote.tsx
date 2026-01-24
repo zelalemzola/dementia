@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Quote, Stethoscope } from "lucide-react";
+import { Stethoscope } from "lucide-react";
 
 const doctorQuotes = [
   {
@@ -48,7 +48,7 @@ interface DoctorQuoteProps {
   category: string;
 }
 
-export function DoctorQuote({ currentQuestion, category }: DoctorQuoteProps) {
+export function DoctorQuote({ currentQuestion }: DoctorQuoteProps) {
   // Find quotes that should show for this specific question
   const applicableQuotes = doctorQuotes.filter(
     (q) => q.showOnQuestions.includes(currentQuestion + 1), // +1 because currentQuestion is 0-indexed
@@ -102,22 +102,6 @@ export function DoctorQuote({ currentQuestion, category }: DoctorQuoteProps) {
             <p className="text-xs text-muted-foreground mb-1">
               Lead Neurologist • Cognitive Health Specialist
             </p>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentQuestion}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-start gap-2"
-              >
-                <Quote className="h-3 w-3 text-primary/60 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-foreground leading-relaxed italic">
-                  {quote.quote}
-                </p>
-              </motion.div>
-            </AnimatePresence>
           </div>
         </div>
 

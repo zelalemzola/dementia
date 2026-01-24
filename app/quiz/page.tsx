@@ -11,7 +11,6 @@ import { EmailCapture } from "@/components/quiz/email-capture";
 import { PricingPlans } from "@/components/quiz/pricing-plans";
 import { SuccessScreen } from "@/components/quiz/success-screen";
 import { DoctorQuote } from "@/components/quiz/doctor-quote";
-import { ProgressIndicator } from "@/components/quiz/progress-indicator";
 import { CognitiveInsight } from "@/components/quiz/cognitive-insight";
 import { QuickInsight } from "@/components/quiz/quick-insight";
 
@@ -80,6 +79,10 @@ export default function QuizPage() {
   const [email, setEmail] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
   const [recallAnswer, setRecallAnswer] = useState<boolean | null>(null);
+
+  // Get gender from localStorage if available
+  const userGender =
+    typeof window !== "undefined" ? localStorage.getItem("userGender") : null;
 
   const currentQuestion = questions[currentQuestionIndex];
   const totalQuestions = questions.length;
@@ -239,7 +242,7 @@ export default function QuizPage() {
         >
           <div className="bg-card border border-amber-200 rounded-2xl shadow-2xl overflow-hidden">
             {/* Doctor Header */}
-            <div className="flex items-center gap-3 p-4 border-b border-border/50 bg-amber-50/50">
+            <div className="flex items-center gap-3 p-6 border-b border-border/50 bg-amber-50/50">
               <div className="relative">
                 <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/40">
                   <Image
@@ -268,7 +271,7 @@ export default function QuizPage() {
             </div>
 
             {/* Content */}
-            <div className="p-4">
+            <div className="p-6">
               <h3 className="font-semibold text-foreground mb-3 text-lg">
                 Assessment Guidelines
               </h3>
@@ -387,22 +390,11 @@ export default function QuizPage() {
 
       {/* Main content */}
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-8">
-        {/* Doctor Quote Section - Only show occasionally, replaces progress indicator */}
+        {/* Doctor Quote Section - Only show occasionally */}
         <DoctorQuote
           currentQuestion={currentQuestionIndex}
           category={currentCategory}
         />
-
-        {/* Progress Indicator - Only show when doctor quote is not showing */}
-        {!doctorQuotes.some((q) =>
-          q.showOnQuestions.includes(currentQuestionIndex + 1),
-        ) && (
-          <ProgressIndicator
-            currentQuestion={currentQuestionIndex + 1}
-            totalQuestions={totalQuestions}
-            category={currentCategory}
-          />
-        )}
 
         <AnimatePresence mode="wait">
           <QuestionCard

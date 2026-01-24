@@ -16,15 +16,6 @@ export interface PopupData {
 }
 
 export const questions: Question[] = [
-  // Gender question
-  {
-    id: 1,
-    text: "What is your gender?",
-    type: "gender",
-    category: "Demographics",
-    options: ["Male", "Female", "Other", "Prefer not to say"],
-  },
-
   // Memory Questions Block 1 (8 questions)
   {
     id: 2,
@@ -308,7 +299,7 @@ export const popups: PopupData[] = [
     triggerAfterQuestion: 27,
     title: "Memory Check",
     content:
-      "Do you remember the first question we asked you at the start of this assessment?\n\nWe asked about your gender to help personalize your results.\n\nThis memory check helps us evaluate your recall ability.",
+      "Do you remember what we asked you before starting this assessment?\n\nWe asked about your gender to help personalize your results.\n\nThis memory check helps us evaluate your recall ability.",
     type: "recall",
   },
 ];

@@ -1,27 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  Brain,
-  Shield,
-  Clock,
-  AlertTriangle,
-  Award,
-  Users,
-  CheckCircle,
-  ArrowRight,
-  Sparkles,
-  Activity,
-  Heart,
-  Stethoscope,
-  UserCheck,
-} from "lucide-react";
-import { BrainLogoAnimation } from "@/components/quiz/brain-logo-animation";
+import { Brain, ArrowRight, Stethoscope, UserCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleGenderSelect = (gender: string) => {
+    setSelectedGender(gender);
+    // Store gender in localStorage and navigate to quiz
+    localStorage.setItem("userGender", gender);
+    router.push("/quiz");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section - Simplified and Doctor Themed */}
@@ -71,24 +68,26 @@ export default function HomePage() {
                     <UserCheck className="h-5 w-5 text-primary" />
                   </div>
                   <span className="text-sm font-medium text-muted-foreground">
-                    Sample Question
+                    Question 1
                   </span>
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-4">
                   What is your gender?
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
-                  <Button asChild variant="outline" className="justify-start">
-                    <Link href="/quiz">Male</Link>
+                  <Button
+                    variant="outline"
+                    className="justify-start"
+                    onClick={() => handleGenderSelect("Male")}
+                  >
+                    Male
                   </Button>
-                  <Button asChild variant="outline" className="justify-start">
-                    <Link href="/quiz">Female</Link>
-                  </Button>
-                  <Button asChild variant="outline" className="justify-start">
-                    <Link href="/quiz">Other</Link>
-                  </Button>
-                  <Button asChild variant="outline" className="justify-start">
-                    <Link href="/quiz">Prefer not to say</Link>
+                  <Button
+                    variant="outline"
+                    className="justify-start"
+                    onClick={() => handleGenderSelect("Female")}
+                  >
+                    Female
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground mt-3">

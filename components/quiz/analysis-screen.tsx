@@ -60,12 +60,12 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
   }, [onComplete]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse" />
         <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse"
+          className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         />
       </div>
@@ -73,30 +73,30 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 flex flex-col items-center max-w-2xl w-full"
+        className="relative z-10 flex flex-col items-center max-w-lg w-full space-y-6"
       >
-        {/* Doctor Header */}
+        {/* Doctor Header - Scaled Down */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex items-center gap-4 mb-8 bg-card border border-border rounded-2xl p-6 w-full"
+          className="flex items-center gap-3 bg-card border border-border rounded-xl p-4 w-full"
         >
-          <div className="relative">
-            <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-primary/40">
+          <div className="relative flex-shrink-0">
+            <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-primary/40">
               <Image
                 src="/images/dr-sam-profile.webp"
                 alt="Dr. Samuel Richardson"
-                width={64}
-                height={64}
+                width={48}
+                height={48}
                 className="h-full w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-primary border-2 border-card flex items-center justify-center">
-              <Stethoscope className="h-3 w-3 text-white" />
+            <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-primary border-2 border-card flex items-center justify-center">
+              <Stethoscope className="h-2 w-2 text-white" />
             </div>
           </div>
-          <div className="flex-1">
-            <h2 className="text-xl font-bold text-foreground mb-1">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-lg font-bold text-foreground mb-1">
               Dr. Richardson is reviewing your results
             </h2>
             <p className="text-muted-foreground text-sm">
@@ -106,50 +106,55 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
           </div>
         </motion.div>
 
-        {/* Analysis Animation */}
-        <div className="mb-8">
-          <BrainLogoAnimation isAnalyzing={true} size="lg" />
-        </div>
+        {/* Analysis Animation - Scaled Down */}
+        <div className="flex flex-col items-center space-y-4">
+          <div className="scale-75">
+            <BrainLogoAnimation isAnalyzing={true} size="md" />
+          </div>
 
-        {/* Current Step */}
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-3 w-3 rounded-full bg-primary animate-pulse" />
-            <span className="text-lg font-medium text-foreground">
+          {/* Current Step - Better positioned */}
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center"
+          >
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-sm font-medium text-foreground">
+                Scanning: Hippocampus
+              </span>
+            </div>
+            <span className="text-xs text-muted-foreground">
               {analysisSteps[currentStep]?.label}
             </span>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
-        {/* Progress Bar */}
-        <div className="w-full max-w-md mb-8">
-          <div className="relative h-2 w-full overflow-hidden rounded-full bg-secondary">
+        {/* Progress Bar - Compact */}
+        <div className="w-full max-w-xs">
+          <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-primary via-accent to-primary"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="mt-2 text-center text-sm text-muted-foreground">
+          <div className="mt-2 text-center text-xs text-muted-foreground">
             {Math.round(progress)}% Complete
           </div>
         </div>
 
-        {/* Medical Notice */}
+        {/* Medical Notice - Compact */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
-          className="bg-amber-50 border border-amber-200 rounded-xl p-4 w-full"
+          className="bg-amber-50 border border-amber-200 rounded-lg p-3 w-full"
         >
-          <div className="flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+          <div className="flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-sm text-amber-800 font-medium mb-1">
+              <p className="text-xs text-amber-800 font-medium mb-1">
                 Please be patient
               </p>
               <p className="text-xs text-amber-700">
@@ -161,17 +166,17 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
           </div>
         </motion.div>
 
-        {/* Analysis Steps Grid */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
+        {/* Analysis Steps Grid - More Compact */}
+        <div className="grid grid-cols-4 gap-2 w-full">
           {analysisSteps.map((step, index) => (
             <motion.div
               key={step.label}
               initial={{ opacity: 0.3 }}
               animate={{
                 opacity: index <= currentStep ? 1 : 0.3,
-                scale: index === currentStep ? 1.05 : 1,
+                scale: index === currentStep ? 1.02 : 1,
               }}
-              className={`rounded-lg border p-3 text-center text-xs transition-all ${
+              className={`rounded-md border p-2 text-center text-xs transition-all ${
                 index === currentStep
                   ? "border-primary bg-primary/10 text-primary"
                   : index < currentStep
@@ -179,10 +184,10 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
                     : "border-border bg-card text-muted-foreground"
               }`}
             >
-              <div className="flex items-center justify-center gap-2 mb-1">
+              <div className="flex items-center justify-center mb-1">
                 {index < currentStep ? (
                   <svg
-                    className="h-3 w-3"
+                    className="h-2 w-2"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -193,31 +198,31 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
                     />
                   </svg>
                 ) : index === currentStep ? (
-                  <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                  <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                 ) : (
-                  <div className="h-2 w-2 rounded-full bg-muted-foreground/50" />
+                  <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
                 )}
               </div>
-              <span className="block truncate">
+              <span className="block text-xs leading-tight">
                 {step.label.split(" ").slice(0, 2).join(" ")}
               </span>
             </motion.div>
           ))}
         </div>
 
-        {/* Medical indicators */}
-        <div className="mt-8 flex items-center gap-6 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2">
+        {/* Medical indicators - Compact */}
+        <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1">
             <Brain className="h-3 w-3 text-primary animate-pulse" />
-            <span>Neurological Analysis</span>
+            <span>Neurological</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <FileText className="h-3 w-3 text-accent animate-pulse" />
-            <span>Medical Report</span>
+            <span>Report</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <Stethoscope className="h-3 w-3 text-green-500 animate-pulse" />
-            <span>Clinical Review</span>
+            <span>Clinical</span>
           </div>
         </div>
       </motion.div>

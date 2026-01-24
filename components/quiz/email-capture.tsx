@@ -34,7 +34,7 @@ export function EmailCapture({ onSubmit }: EmailCaptureProps) {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="space-y-8"
+            className="space-y-4"
           >
             {/* Header */}
             <div>
@@ -46,10 +46,10 @@ export function EmailCapture({ onSubmit }: EmailCaptureProps) {
                 <FileText className="h-4 w-4" />
                 Analysis Complete
               </motion.div>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 Your Report is Ready
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className=" text-muted-foreground">
                 Enter your email to receive your detailed cognitive assessment report. 
                 Your results have been analyzed and are waiting for you.
               </p>
@@ -76,7 +76,7 @@ export function EmailCapture({ onSubmit }: EmailCaptureProps) {
             </div>
 
             {/* Email form */}
-            <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+            <div className="rounded-2xl border border-border bg-card p-4 space-y-4">
               <label className="block text-sm font-medium text-foreground">
                 Enter your email address
               </label>
@@ -111,7 +111,7 @@ export function EmailCapture({ onSubmit }: EmailCaptureProps) {
               <Button
                 onClick={() => isValid && onSubmit(email)}
                 disabled={!isValid}
-                className="w-full h-14 text-lg font-semibold bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-12 font-semibold bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Unlock My Report
               </Button>
