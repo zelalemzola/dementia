@@ -30,7 +30,7 @@ export function ProgressBar({ current, total, category }: ProgressBarProps) {
   };
 
   return (
-    <div className="w-full space-y-3">
+    <div className="w-full space-y-3 overflow-x-hidden">
       {/* Header with progress info */}
       <div className="flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
