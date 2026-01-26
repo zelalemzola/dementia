@@ -259,12 +259,12 @@ export default function QuizPage() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-foreground text-sm">
+                  <span className="font-semibold text-foreground ">
                     Dr. Richardson
                   </span>
                   <AlertTriangle className="h-4 w-4 text-amber-600" />
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className=" text-muted-foreground">
                   Important Assessment Guidelines
                 </p>
               </div>
@@ -283,7 +283,7 @@ export default function QuizPage() {
                     <p className="text-sm font-medium text-foreground mb-1">
                       Please complete this assessment independently
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-[14px] text-muted-foreground">
                       For accurate results, avoid using external help or
                       resources
                     </p>
@@ -291,7 +291,7 @@ export default function QuizPage() {
                 </div>
               </div>
 
-              <div className="space-y-2 text-xs text-muted-foreground mb-4">
+              <div className="space-y-2  text-muted-foreground mb-4">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
                   <span>Answer honestly and to the best of your ability</span>
@@ -308,12 +308,12 @@ export default function QuizPage() {
 
               <Button
                 onClick={() => setShowDisclaimer(false)}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 text-sm"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 text-lg"
               >
                 I Understand, Begin Assessment
               </Button>
 
-              <p className="text-center text-xs text-muted-foreground mt-2">
+              <p className="text-center  text-muted-foreground mt-2">
                 By continuing, you agree to complete independently
               </p>
             </div>

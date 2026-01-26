@@ -7,37 +7,37 @@ import { Stethoscope } from "lucide-react";
 const doctorQuotes = [
   {
     quote:
-      "As a neurologist, I've designed these questions to identify early cognitive changes. Your honest answers help us provide accurate insights.",
+      "I've personally designed this dementia screening assessment based on 20 years of clinical experience. Each question targets specific cognitive markers I look for when evaluating patients for early dementia signs.",
     category: "memory",
     showOnQuestions: [2, 11, 18],
   },
   {
     quote:
-      "These cognitive assessments are based on clinical protocols I use in my practice. Each question serves a specific diagnostic purpose.",
+      "As a dementia specialist, I've crafted these executive function questions to mirror the assessments I use in my practice. They help identify the subtle changes that often precede a dementia diagnosis.",
     category: "executive",
     showOnQuestions: [19, 24],
   },
   {
     quote:
-      "In my 20 years of practice, early detection has been key to better outcomes. This assessment follows proven medical guidelines.",
+      "In my two decades treating dementia patients, I've learned that attention problems are often the first signs families notice. These questions reflect what I ask patients in my clinic every day.",
     category: "attention",
     showOnQuestions: [25, 30],
   },
   {
     quote:
-      "Language processing questions help me evaluate multiple brain regions. These are the same assessments we use in clinical settings.",
+      "Language difficulties can be early indicators of dementia. I've selected these questions based on the most reliable language assessments I use when screening for cognitive decline in my patients.",
     category: "language",
     showOnQuestions: [35, 38],
   },
   {
     quote:
-      "Orientation questions may seem simple, but they provide crucial information about cognitive health that I rely on in diagnosis.",
+      "Orientation questions may seem basic, but they're crucial in dementia screening. I use these exact types of questions in my clinical practice to assess cognitive health and detect early warning signs.",
     category: "orientation",
     showOnQuestions: [31, 33],
   },
   {
     quote:
-      "Remember, this assessment is designed to help, not worry you. Answer honestly so we can provide the most accurate medical insights.",
+      "This assessment represents years of my research into early dementia detection. I've created it specifically for you to identify potential cognitive concerns before they become more serious.",
     category: "general",
     showOnQuestions: [10, 20, 39],
   },
@@ -67,7 +67,7 @@ export function DoctorQuote({ currentQuestion }: DoctorQuoteProps) {
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-2xl mx-auto mb-4"
     >
-      <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 backdrop-blur-sm p-4">
+      <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 backdrop-blur-lg p-4">
         {/* Medical badge */}
         <div className="absolute -right-1 -top-1 opacity-20">
           <Stethoscope className="h-8 w-8 text-primary" />
@@ -100,7 +100,7 @@ export function DoctorQuote({ currentQuestion }: DoctorQuoteProps) {
               <span className="text-xs text-primary font-medium">MD, PhD</span>
             </div>
             <p className="text-xs text-muted-foreground mb-1">
-              Lead Neurologist • Cognitive Health Specialist
+              Dementia Specialist • Created This Assessment For You
             </p>
           </div>
         </div>

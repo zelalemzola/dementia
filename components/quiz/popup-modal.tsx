@@ -38,7 +38,7 @@ export function PopupModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-start justify-center bg-background/60 backdrop-blur-sm p-4 pt-20"
+        className="fixed inset-0 z-50 flex items-start justify-center bg-background/80 backdrop-blur-xl p-4 pt-20"
       >
         <motion.div
           initial={{ scale: 0.95, opacity: 0, y: -20 }}

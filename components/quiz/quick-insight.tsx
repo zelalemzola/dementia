@@ -20,7 +20,7 @@ export function QuickInsight({
   const quickInsights = [
     {
       triggerAt: 8,
-      message: "Your memory responses show strong pattern recognition",
+      message: "Analyzing memory patterns for dementia risk indicators",
       icon: Brain,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
@@ -28,7 +28,7 @@ export function QuickInsight({
     },
     {
       triggerAt: 15,
-      message: "Excellent cognitive flexibility detected in your answers",
+      message: "Evaluating cognitive changes associated with dementia",
       icon: Lightbulb,
       color: "text-amber-500",
       bgColor: "bg-amber-500/10",
@@ -36,7 +36,7 @@ export function QuickInsight({
     },
     {
       triggerAt: 22,
-      message: "Your attention patterns indicate strong focus abilities",
+      message: "Assessing attention deficits linked to dementia progression",
       icon: TrendingUp,
       color: "text-green-500",
       bgColor: "bg-green-500/10",
@@ -44,7 +44,7 @@ export function QuickInsight({
     },
     {
       triggerAt: 30,
-      message: "Processing speed analysis shows optimal performance",
+      message: "Screening for early-stage dementia warning signs",
       icon: CheckCircle,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",

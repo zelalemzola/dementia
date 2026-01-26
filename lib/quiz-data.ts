@@ -283,23 +283,23 @@ export const questions: Question[] = [
 export const popups: PopupData[] = [
   {
     triggerAfterQuestion: 8,
-    title: "Medical Notice",
+    title: "Important Notice",
     content:
-      "Based on your responses, we're detecting patterns that warrant attention.\n\nThis assessment helps identify cognitive changes early.\n\nContinuing will provide you with a comprehensive analysis of your results.",
+      "From your answers so far, we are seeing signs that could be related to dementia.\n\nThis does not mean you have it.\n\nBut if you keep going, you may see results about your memory and thinking that are worrying.\n\nOnce your report is ready, you cannot hide or undo it.\n\nOnly continue if you are ready to see the full result — even if it is bad news.",
     type: "warning",
   },
   {
     triggerAfterQuestion: 20,
-    title: "Progress Update",
+    title: "Please pause",
     content:
-      "You're halfway through the assessment.\n\nOur system is analyzing your response patterns to provide accurate insights.\n\nPlease continue answering honestly for the most reliable results.",
+      "Based on your answers so far, we are seeing something unusual in how your memory and thinking are working.\n\nTo understand what this means, you need to continue and answer a few more questions.\n\nThe good news is that by the end of this check, you will receive a clear report to help determine whether dementia may be present — or not.",
     type: "info",
   },
   {
     triggerAfterQuestion: 27,
     title: "Memory Check",
     content:
-      "Do you remember what we asked you before starting this assessment?\n\nWe asked about your gender to help personalize your results.\n\nThis memory check helps us evaluate your recall ability.",
+      "Do you remember the first question we asked you at the start of this quiz?\n\nWe did not tell you to remember it on purpose.\n\nThis helps us check how your memory works over time.\n\nPlease answer honestly.",
     type: "recall",
   },
 ];

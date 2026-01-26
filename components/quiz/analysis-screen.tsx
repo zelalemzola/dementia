@@ -11,13 +11,13 @@ interface AnalysisScreenProps {
 }
 
 const analysisSteps = [
-  { label: "Processing your responses", duration: 2000 },
-  { label: "Analyzing memory patterns", duration: 2500 },
-  { label: "Evaluating cognitive markers", duration: 2000 },
-  { label: "Assessing dementia risk factors", duration: 2500 },
-  { label: "Comparing with clinical data", duration: 2000 },
-  { label: "Reviewing neurological indicators", duration: 2500 },
-  { label: "Generating medical report", duration: 3000 },
+  { label: "Processing dementia risk factors", duration: 2000 },
+  { label: "Analyzing memory decline patterns", duration: 2500 },
+  { label: "Evaluating cognitive impairment markers", duration: 2000 },
+  { label: "Assessing dementia progression indicators", duration: 2500 },
+  { label: "Comparing with dementia clinical data", duration: 2000 },
+  { label: "Reviewing neurodegeneration signs", duration: 2500 },
+  { label: "Generating dementia risk report", duration: 3000 },
 ];
 
 export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
@@ -97,11 +97,12 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-lg font-bold text-foreground mb-1">
-              Dr. Richardson is reviewing your results
+              Dr. Richardson is analyzing your dementia risk
             </h2>
             <p className="text-muted-foreground text-sm">
-              After reviewing the results, we noticed there is something that
-              you really need to know about your risk of dementia.
+              After reviewing your responses, we've identified patterns that
+              require careful analysis to determine your risk of dementia and
+              cognitive decline.
             </p>
           </div>
         </motion.div>
@@ -122,7 +123,7 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
             <div className="flex items-center justify-center gap-2 mb-2">
               <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               <span className="text-sm font-medium text-foreground">
-                Scanning: Hippocampus
+                Analyzing: Dementia Risk Factors
               </span>
             </div>
             <span className="text-xs text-muted-foreground">
@@ -155,12 +156,12 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
             <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-xs text-amber-800 font-medium mb-1">
-                Please be patient
+                Dementia Assessment Notice
               </p>
               <p className="text-xs text-amber-700">
-                Sometimes the results might indicate areas of concern. We're
-                preparing a comprehensive analysis to help you understand your
-                cognitive health.
+                Your responses may indicate cognitive changes consistent with
+                early dementia signs. We're preparing a comprehensive analysis
+                to help you understand your risk level and next steps.
               </p>
             </div>
           </div>
@@ -214,15 +215,15 @@ export function AnalysisScreen({ onComplete }: AnalysisScreenProps) {
         <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <Brain className="h-3 w-3 text-primary animate-pulse" />
-            <span>Neurological</span>
+            <span>Dementia</span>
           </div>
           <div className="flex items-center gap-1">
             <FileText className="h-3 w-3 text-accent animate-pulse" />
-            <span>Report</span>
+            <span>Risk Report</span>
           </div>
           <div className="flex items-center gap-1">
             <Stethoscope className="h-3 w-3 text-green-500 animate-pulse" />
-            <span>Clinical</span>
+            <span>Medical</span>
           </div>
         </div>
       </motion.div>

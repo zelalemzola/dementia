@@ -30,11 +30,11 @@ export function CognitiveInsight({
   const insights = [
     {
       triggerAt: 5,
-      title: "Memory Pattern Analysis",
-      subtitle: "Analyzing your cognitive profile...",
+      title: "Dementia Risk Assessment",
+      subtitle: "Analyzing early warning signs...",
       visual: "brain-scan",
       message:
-        "Your responses reveal interesting patterns in how you process and retain information. Let's explore deeper.",
+        "Your memory responses are being evaluated against clinical dementia markers. We're identifying patterns that may indicate cognitive changes.",
       icon: Brain,
       color: "from-blue-500 to-purple-600",
       bgColor: "bg-blue-500/10",
@@ -42,11 +42,11 @@ export function CognitiveInsight({
     },
     {
       triggerAt: 12,
-      title: "Cognitive Strengths Detected",
-      subtitle: "Building your neurological profile...",
+      title: "Cognitive Decline Indicators",
+      subtitle: "Evaluating dementia risk factors...",
       visual: "strength-meter",
       message:
-        "We're identifying areas where your cognitive abilities show particular strength. Continue to reveal more insights.",
+        "We're comparing your responses to established dementia screening criteria. Some patterns may suggest areas that need attention.",
       icon: Target,
       color: "from-green-500 to-emerald-600",
       bgColor: "bg-green-500/10",
@@ -54,11 +54,11 @@ export function CognitiveInsight({
     },
     {
       triggerAt: 20,
-      title: "Attention Patterns Emerging",
-      subtitle: "Your focus profile is taking shape...",
+      title: "Memory Function Analysis",
+      subtitle: "Assessing dementia-related changes...",
       visual: "attention-chart",
       message:
-        "Your attention and focus patterns are becoming clearer. These insights will help create your personalized report.",
+        "Your attention and memory patterns are being evaluated for signs consistent with early-stage dementia. Continue for a complete assessment.",
       icon: Eye,
       color: "from-amber-500 to-orange-600",
       bgColor: "bg-amber-500/10",
@@ -66,11 +66,11 @@ export function CognitiveInsight({
     },
     {
       triggerAt: 28,
-      title: "Language Processing Analysis",
-      subtitle: "Mapping your communication abilities...",
+      title: "Dementia Screening Progress",
+      subtitle: "Analyzing cognitive impairment signs...",
       visual: "language-network",
       message:
-        "Your language processing capabilities are showing unique characteristics. We're almost ready to compile your results.",
+        "Language and communication difficulties can be early dementia symptoms. Your responses are being compared to clinical dementia profiles.",
       icon: MessageCircle,
       color: "from-purple-500 to-pink-600",
       bgColor: "bg-purple-500/10",
@@ -78,11 +78,11 @@ export function CognitiveInsight({
     },
     {
       triggerAt: 35,
-      title: "Final Cognitive Assessment",
-      subtitle: "Completing your brain health profile...",
+      title: "Final Dementia Assessment",
+      subtitle: "Completing your dementia risk profile...",
       visual: "final-analysis",
       message:
-        "Your comprehensive cognitive profile is nearly complete. Just a few more questions to finalize your personalized insights.",
+        "Your comprehensive dementia screening is nearly complete. The final questions will help determine your overall cognitive health status.",
       icon: Heart,
       color: "from-red-500 to-rose-600",
       bgColor: "bg-red-500/10",
@@ -227,7 +227,7 @@ export function CognitiveInsight({
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-xl p-4"
     >
       <div className="relative max-w-md w-full">
         {/* Background gradient */}
@@ -262,7 +262,7 @@ export function CognitiveInsight({
                 <currentInsight.icon className="h-4 w-4 text-primary" />
               </div>
               <p className="text-xs text-muted-foreground">
-                Cognitive Analysis Update
+                Dementia Risk Analysis
               </p>
             </div>
           </div>

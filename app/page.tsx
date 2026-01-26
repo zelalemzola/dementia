@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Brain, ArrowRight, Stethoscope, UserCheck } from "lucide-react";
+import {
+  Brain,
+  ArrowRight,
+  Stethoscope,
+  UserCheck,
+  TextIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -30,41 +36,87 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-16 md:py-12">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
+          <div className="">
             {/* Left side - Simplified Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-8"
+              className="space-y-4"
             >
               {/* Doctor Badge */}
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary border border-primary/20"
+                className="w-fit flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm  font-medium text-primary border border-primary/20 mx-auto"
               >
                 <Stethoscope className="h-4 w-4" />
                 Doctor-Designed Assessment
-              </motion.div>
+              </motion.div> */}
 
               {/* Simplified Heading */}
-              <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-foreground leading-tight">
+              <h1 className="text-2xl md:text-2xl lg:text-4xl font-bold text-foreground leading-tight text-center">
                 Check Your
-                <span className="block text-primary">Memory Health</span>
+                <span className=" text-primary"> Memory Health</span>
               </h1>
 
               {/* Simplified Description */}
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
+              <p className="text-md md:text-lg text-muted-foreground leading-relaxed text-center">
                 A quick, doctor-designed assessment to understand your cognitive
                 wellness. Get personalized insights in just 10 minutes.
               </p>
-
+              
+              {/* Doctor Attribution */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border border-primary/20 rounded-2xl p-6 py-2 shadow-sm w-fit mx-auto "
+              >
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <div className="h-16 w-16 rounded-full overflow-hidden border-3 border-primary/40 shadow-lg">
+                      <Image
+                        src="/images/dr-sam-profile.webp"
+                        alt="Dr. Samuel Richardson"
+                        width={64}
+                        height={64}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-primary border-2 border-card flex items-center justify-center">
+                      <Stethoscope className="h-3 w-3 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className=" font-bold text-foreground mb-1">
+                      Created by Dr. Samuel Richardson, MD, PhD
+                    </h4>
+                    <p className="text-sm text-primary font-medium mb-1">
+                      Lead Neurologist & Dementia Specialist
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Harvard Medical School • 20+ Years Experience • 500+
+                      Research Publications
+                    </p>
+                  </div>
+                </div>
+                
+              </motion.div>
+<motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="w-fit flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm  font-medium text-primary border border-primary/20 mx-auto"
+              >
+                <TextIcon className="h-4 w-4" />
+                Start by taking our Assessment
+              </motion.div>
               {/* Sample Question Preview */}
-              <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+              <div className="bg-card border border-border rounded-2xl p-6 shadow-sm max-w-3xl mx-auto">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 bg-primary/10 rounded-full">
+                  <div className="p-2 bg-primary/10 rounded-full ">
                     <UserCheck className="h-5 w-5 text-primary" />
                   </div>
                   <span className="text-sm font-medium text-muted-foreground">
@@ -91,33 +143,14 @@ export default function HomePage() {
                   </Button>
                 </div>
                 <p className="text-sm text-muted-foreground mt-3">
-                  Start with simple questions like this, then progress to memory
-                  assessments
+                  Start with simple questions like this, then progress to
+                  dementia-focused memory and cognitive assessments
                 </p>
               </div>
-
-              {/* CTA Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="flex flex-wrap gap-4"
-              >
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
-                >
-                  <Link href="/quiz">
-                    Begin Assessment
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </motion.div>
             </motion.div>
 
             {/* Right side - Doctor Image */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -145,7 +178,7 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </div>
