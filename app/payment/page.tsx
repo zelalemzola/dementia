@@ -1,20 +1,20 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import CheckoutPage from "@/components/payment/CheckoutPage";
 import { motion } from "framer-motion";
-import { Brain, Shield } from "lucide-react";
+import { Brain, Shield, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
 );
 
-export default function PaymentPage() {
+function PaymentContent() {
   const searchParams = useSearchParams();
   const plan = searchParams.get("plan") ?? "";
   const amountParam = searchParams.get("amount");
@@ -110,5 +110,24 @@ export default function PaymentPage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+function PaymentFallback() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <Loader2 className="h-5 w-5 animate-spin" />
+        <span>Loading checkout…</span>
+      </div>
+    </div>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense fallback={<PaymentFallback />}>
+      <PaymentContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -28,7 +28,7 @@ import {
 } from "@/lib/report-utils";
 import { cn } from "@/lib/utils";
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const amount = searchParams.get("amount") ?? "";
   const plan = searchParams.get("plan") ?? "";
@@ -279,5 +279,23 @@ export default function PaymentSuccessPage() {
       </Dialog>
 
     </div>
+  );
+}
+
+function PaymentSuccessFallback() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <span>Loading…</span>
+      </div>
+    </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<PaymentSuccessFallback />}>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
