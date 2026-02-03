@@ -39,6 +39,15 @@ export default function CheckoutPage({ amount, plan = "" }: CheckoutPageProps) {
     if (!stripe || !elements) return;
     setLoading(true);
     setErrorMessage(undefined);
+
+    // Stripe requires elements.submit() before confirmPayment() — call it first, no async work in between
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setErrorMessage(submitError.message ?? "Validation failed");
+      setLoading(false);
+      return;
+    }
+
     const returnUrl = new URL("/payment-sucess", window.location.origin);
     returnUrl.searchParams.set("amount", String(amount));
     if (plan) returnUrl.searchParams.set("plan", plan);
@@ -51,8 +60,9 @@ export default function CheckoutPage({ amount, plan = "" }: CheckoutPageProps) {
     });
     if (error) {
       setErrorMessage(error.message ?? "Payment failed");
+      setLoading(false);
     }
-    setLoading(false);
+    // If success, Stripe redirects to return_url — don't setLoading(false) so button keeps spinning until redirect
   };
 
   if (!clientSecret || !stripe || !elements) {
