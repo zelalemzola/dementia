@@ -6,14 +6,15 @@ import { Check, Zap, Crown, Building } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PricingPlansProps {
-  onSelectPlan: (plan: string) => void;
+  onSelectPlan: (plan: string, amount: number) => void;
   email: string;
 }
 
 const plans = [
   {
     name: "Basic",
-    price: "$9.99",
+    price: "$0.99",
+    amount: 0.99,
     period: "one-time",
     description: "Essential dementia risk insights",
     icon: Zap,
@@ -29,6 +30,7 @@ const plans = [
   {
     name: "Premium",
     price: "$24.99",
+    amount: 24.99,
     period: "one-time",
     description: "Comprehensive dementia analysis & guidance",
     icon: Crown,
@@ -46,6 +48,7 @@ const plans = [
   {
     name: "Professional",
     price: "$49.99",
+    amount: 49.99,
     period: "one-time",
     description: "For healthcare providers",
     icon: Building,
@@ -174,7 +177,7 @@ export function PricingPlans({ onSelectPlan, email }: PricingPlansProps) {
 
                 {/* CTA Button */}
                 <Button
-                  onClick={() => onSelectPlan(plan.name)}
+                  onClick={() => onSelectPlan(plan.name, plan.amount)}
                   className={cn(
                     "w-full h-12 text-base font-semibold",
                     plan.popular

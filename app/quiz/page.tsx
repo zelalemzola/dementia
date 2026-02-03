@@ -63,6 +63,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type QuizStage = "quiz" | "analyzing" | "email" | "pricing" | "success";
 
@@ -197,10 +198,31 @@ export default function QuizPage() {
     setStage("pricing");
   }, []);
 
-  const handlePlanSelect = useCallback((plan: string) => {
-    setSelectedPlan(plan);
-    setStage("success");
-  }, []);
+  const router = useRouter();
+  const handlePlanSelect = useCallback(
+    (plan: string, amount: number) => {
+      setSelectedPlan(plan);
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(
+            "brainly_report_draft",
+            JSON.stringify({
+              answers: { ...answers },
+              email,
+              plan,
+              savedAt: Date.now(),
+            }),
+          );
+        } catch {
+          // ignore storage errors
+        }
+      }
+      router.push(
+        `/payment?plan=${encodeURIComponent(plan)}&amount=${amount}`,
+      );
+    },
+    [router, answers, email],
+  );
 
   const handleStartOver = useCallback(() => {
     setStage("quiz");
